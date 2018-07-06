@@ -1,10 +1,11 @@
+const deck = document.getElementsByClassName('deck')[0];
 /*
  * Create a list that holds all of your cards
  */
 const cardList = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o',
-    'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt',
-    'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf',
-    'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+  'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt',
+  'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf',
+  'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
 
 /*
  * Display the cards on the page
@@ -15,20 +16,34 @@ const cardList = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plan
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
 
+function setupBoard() {
+  const randomList = shuffle(cardList);
+  const fragment = document.createDocumentFragment();
+  randomList.forEach((card) => {
+    const li = document.createElement('li');
+    li.classList.add('card');
+    const i = document.createElement('i');
+    i.classList.add('fa', card);
+    li.appendChild(i);
+    fragment.appendChild(li);
+  });
+  deck.appendChild(fragment);
+}
 
+setupBoard();
 
 /*
  * set up the event listener for a card. If a card is clicked:
