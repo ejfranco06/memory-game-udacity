@@ -1,4 +1,5 @@
 const deck = document.getElementsByClassName('deck')[0];
+let openCards = [];
 /*
  * Create a list that holds all of your cards
  */
@@ -16,7 +17,7 @@ const cardList = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plan
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  let currentIndex = array.length, temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -32,18 +33,63 @@ function shuffle(array) {
 function setupBoard() {
   const randomList = shuffle(cardList);
   const fragment = document.createDocumentFragment();
+
   randomList.forEach((card) => {
-    const li = document.createElement('li');
-    li.classList.add('card');
-    const i = document.createElement('i');
-    i.classList.add('fa', card);
-    li.appendChild(i);
-    fragment.appendChild(li);
+    const newLiElement = document.createElement('li');
+    newLiElement.classList.add('card');
+    const newIElement = document.createElement('i');
+    newIElement.classList.add('fa', card);
+    newLiElement.appendChild(newIElement);
+    fragment.appendChild(newLiElement);
   });
+
   deck.appendChild(fragment);
 }
+function toggleCardDisplay(card) {
+  card.classList.toggle('open');
+  card.classList.toggle('show');
+}
+
+function doCardsMatch(card1, card2) {
+  return card1.firstElementChild.classList[1] === card2.firstElementChild.classList[1];
+}
+function isCardOpened(card) {
+  return card.classList.contains('open');
+}
+
+function setCardsToMatch(cards){
+  cards[0].classList.remove('open');
+  cards[0].classList.add('match');
+
+  cards[1].classList.remove('open');
+  cards[1].classList.add('match');
+}
+
+function hideCards(cards) {
+  toggleCardDisplay(cards[0]);
+  toggleCardDisplay(cards[1]);
+}
+
+deck.addEventListener('click', (event) => {
+  let card = event.target;
+  if(!isCardOpened(card) && openCards.length < 2) {
+    toggleCardDisplay(card);
+    openCards.push(card);
+  }
+  if(openCards.length === 2) {
+     window.setTimeout(() => {
+       if(doCardsMatch(openCards[0], openCards[1])) {
+         setCardsToMatch(openCards)
+       } else {
+         hideCards(openCards);
+       }
+       openCards = [];
+     } , 1000);
+  }
+});
 
 setupBoard();
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
