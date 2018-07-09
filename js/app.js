@@ -2,6 +2,7 @@ const deck = document.getElementsByClassName('deck')[0];
 let openCards = [];
 const movesElement = document.getElementsByClassName('moves')[0];
 let movesCounter = 0;
+const restartButton = document.getElementsByClassName('restart')[0];
 /*
  * Create a list that holds all of your cards
  */
@@ -93,6 +94,12 @@ deck.addEventListener('click', (event) => {
        openCards = [];
      } , 1000);
   }
+});
+
+restartButton.addEventListener('click', () =>{
+  movesCounter = 0;
+  deck.innerHTML = '';
+  setupBoard();
 });
 
 setupBoard();
