@@ -1,5 +1,7 @@
 const deck = document.getElementsByClassName('deck')[0];
 let openCards = [];
+const movesElement = document.getElementsByClassName('moves')[0];
+let movesCounter = 0;
 /*
  * Create a list that holds all of your cards
  */
@@ -42,7 +44,7 @@ function setupBoard() {
     newLiElement.appendChild(newIElement);
     fragment.appendChild(newLiElement);
   });
-
+  movesElement.innerHTML = movesCounter.toString();
   deck.appendChild(fragment);
 }
 function toggleCardDisplay(card) {
@@ -69,6 +71,10 @@ function hideCards(cards) {
   toggleCardDisplay(cards[0]);
   toggleCardDisplay(cards[1]);
 }
+function increaseMovesCounter() {
+  movesCounter++;
+  movesElement.innerHTML = movesCounter.toString();
+}
 
 deck.addEventListener('click', (event) => {
   let card = event.target;
@@ -78,6 +84,7 @@ deck.addEventListener('click', (event) => {
   }
   if(openCards.length === 2) {
      window.setTimeout(() => {
+       increaseMovesCounter();
        if(doCardsMatch(openCards[0], openCards[1])) {
          setCardsToMatch(openCards)
        } else {
