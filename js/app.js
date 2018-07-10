@@ -3,6 +3,10 @@ let openCards = [];
 const movesElement = document.getElementsByClassName('moves')[0];
 let movesCounter = 0;
 const restartButton = document.getElementsByClassName('restart')[0];
+const starsList = document.getElementsByClassName('stars')[0];
+let mismatchCounter = 0;
+const stars = document.getElementsByClassName('stars')[0];
+const NUMBER_OF_STARS = 3;
 /*
  * Create a list that holds all of your cards
  */
@@ -35,7 +39,7 @@ function shuffle(array) {
 
 function setupBoard() {
   const randomList = shuffle(cardList);
-  const fragment = document.createDocumentFragment();
+  let fragment = document.createDocumentFragment();
 
   randomList.forEach((card) => {
     const newLiElement = document.createElement('li');
@@ -45,8 +49,18 @@ function setupBoard() {
     newLiElement.appendChild(newIElement);
     fragment.appendChild(newLiElement);
   });
-  movesElement.innerHTML = movesCounter.toString();
   deck.appendChild(fragment);
+
+  fragment = document.createDocumentFragment();
+  for(let i = 0; i < NUMBER_OF_STARS; i ++) {
+    const newLiElement = document.createElement('li');
+    const newIElement = document.createElement('i');
+    newIElement.classList.add('fa', 'fa-star');
+    newLiElement.appendChild(newIElement);
+    fragment.appendChild(newLiElement);
+  }
+  stars.appendChild(fragment);
+  movesElement.innerHTML = movesCounter.toString();
 }
 function toggleCardDisplay(card) {
   card.classList.toggle('open');
@@ -56,7 +70,7 @@ function toggleCardDisplay(card) {
 function doCardsMatch(card1, card2) {
   return card1.firstElementChild.classList[1] === card2.firstElementChild.classList[1];
 }
-function isCardOpened(card) {
+function isCardOpen(card) {
   return card.classList.contains('open');
 }
 
@@ -77,9 +91,20 @@ function increaseMovesCounter() {
   movesElement.innerHTML = movesCounter.toString();
 }
 
+function evaluateStars() {
+    if(mismatchCounter === 5 || mismatchCounter === 10)
+      starsList.removeChild(starsList.children[0]);
+}
+
+
+
 deck.addEventListener('click', (event) => {
   let card = event.target;
-  if(!isCardOpened(card) && openCards.length < 2) {
+  if(card.tagName !== 'LI'){
+    console.log('found an error' + card.tagName);
+    return;
+  }
+  if(!isCardOpen(card) && openCards.length < 2) {
     toggleCardDisplay(card);
     openCards.push(card);
   }
@@ -89,16 +114,19 @@ deck.addEventListener('click', (event) => {
        if(doCardsMatch(openCards[0], openCards[1])) {
          setCardsToMatch(openCards)
        } else {
+         mismatchCounter++;
+         evaluateStars();
          hideCards(openCards);
        }
        openCards = [];
-     } , 1000);
+     } , 800);
   }
 });
 
 restartButton.addEventListener('click', () =>{
   movesCounter = 0;
   deck.innerHTML = '';
+  stars.innerHTML = '';
   setupBoard();
 });
 
