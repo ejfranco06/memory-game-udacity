@@ -7,6 +7,12 @@ const starsList = document.getElementsByClassName('stars')[0];
 let mismatchCounter = 0;
 const stars = document.getElementsByClassName('stars')[0];
 const NUMBER_OF_STARS = 3;
+let timeView = document.getElementById('time');
+let time = 0;
+let timeController;
+let gameStarted = false;
+
+
 /*
  * Create a list that holds all of your cards
  */
@@ -96,10 +102,28 @@ function evaluateStars() {
       starsList.removeChild(starsList.children[0]);
 }
 
+function timeFormat(time) {
+  let minutes = Math.floor(time / 60).toString().padStart(2, '0');
+  let seconds = (time % 60).toString().padStart(2, '0');
+
+  return `${minutes} : ${seconds}`;
+}
+function updateTime() {
+  timeView.innerText = timeFormat(time);
+  time++;
+
+  timeController = setTimeout(updateTime, 1000);
+}
+
 
 
 deck.addEventListener('click', (event) => {
   let card = event.target;
+  if(!gameStarted) {
+      updateTime();
+      gameStarted = true;
+  }
+
   if(card.tagName !== 'LI'){
     console.log('found an error' + card.tagName);
     return;
@@ -127,6 +151,10 @@ restartButton.addEventListener('click', () =>{
   movesCounter = 0;
   deck.innerHTML = '';
   stars.innerHTML = '';
+  clearTimeout(timeController);
+  timeView.innerText= '00 :00';
+  gameStarted = false;
+  time = 0;
   setupBoard();
 });
 
