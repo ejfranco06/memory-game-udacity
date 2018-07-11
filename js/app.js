@@ -11,6 +11,7 @@ let timeView = document.getElementById('time');
 let time = 0;
 let timeController;
 let gameStarted = false;
+let matchedSets = 0;
 
 
 /*
@@ -115,6 +116,16 @@ function updateTime() {
   timeController = setTimeout(updateTime, 1000);
 }
 
+function populateScoreModal() {
+  const timePlayed = document.getElementById('time-played');
+  const starRating = document.getElementById('star-rating');
+  const movesMade = document.getElementById('moves-made');
+
+  timePlayed.innerText = 'time played: ' + timeFormat(time);
+  starRating.innerText = 'star rating: ' + document.getElementsByClassName('stars')[0].childElementCount.toString() + '★';
+  movesMade.innerText = 'moves made' + movesCounter;
+}
+
 
 
 deck.addEventListener('click', (event) => {
@@ -132,6 +143,7 @@ deck.addEventListener('click', (event) => {
     toggleCardDisplay(card);
     openCards.push(card);
   }
+
   if(openCards.length === 2) {
      window.setTimeout(() => {
        increaseMovesCounter();
@@ -159,6 +171,29 @@ restartButton.addEventListener('click', () =>{
 });
 
 setupBoard();
+
+
+//temp modal code
+var modal = document.querySelector(".modal-container");
+var trigger = document.querySelector(".trigger");
+var closeButton = document.querySelector(".close-button");
+
+function toggleModal() {
+  modal.classList.toggle("show-modal");
+  populateScoreModal();
+}
+
+function windowOnClick(event) {
+  if (event.target === modal) {
+    toggleModal();
+  }
+}
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+//window.addEventListener("click", windowOnClick);
+
+//temp modal code
 
 
 /*
