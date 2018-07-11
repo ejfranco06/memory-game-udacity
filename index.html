@@ -1,53 +1,52 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>Matching Game</title>
-    <meta name="description" content="">
-    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
-    <link rel="stylesheet" href="css/app.css">
+  <meta charset="utf-8">
+  <title>Matching Game</title>
+  <meta name="description" content="">
+  <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+  <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Matching Game</h1>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Matching Game</h1>
+    </header>
 
-        <section class="score-panel">
-        	<ul class="stars">
-        	</ul>
+    <section class="score-panel">
+      <ul class="stars">
+      </ul>
 
-        	<span class="moves"></span> Moves
+      <span class="moves"></span> Moves
 
 
-
-          <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
-
-          <div id="time">00 : 00</div>
-        </section>
-
-        <ul class="deck">
-        </ul>
-
-      <!--temp modal code-->
-      <button class="trigger">Click here to trigger the modal!</button>
-      <div class="modal-container">
-        <div class="modal-content">
-          <h2>Congratulations</h2>
-          <h3 id="time-played">Time played 00 : 49</h3>
-          <h3 id="star-rating">Star rating: 3 ★ </h3>
-          <h3 id="moves-made">Moves: 6</h3>
-          <h3 id="play-again-btn">play again</h3>
-          <span class="close-button">&times;</span>
-        </div>
+      <div class="restart">
+        <i class="fa fa-repeat"></i>
       </div>
-      <!--temp modal code-->
+
+      <div class="time">00 : 00</div>
+    </section>
+
+    <ul class="deck">
+    </ul>
+
+    <div class="modal-container">
+      <div class="modal-content">
+        <h2>Congratulations you won!!!</h2>
+        <h3 class="time-played"></h3>
+        <h3 class="star-rating"></h3>
+        <h3 class="moves-made"></h3>
+        <button class="play-again-btn">play again?</button>
+      </div>
     </div>
 
-    <script src="js/app.js"></script>
+  </div>
+
+  <script src="js/app.js"></script>
 </body>
+
 </html>
